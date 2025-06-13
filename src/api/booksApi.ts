@@ -1,7 +1,7 @@
 import type { Book } from "../types/book";
 
 export const API_BASE =
-  "https://crudcrud.com/api/e4ab79a56a344abfae80a0f0a5b2b10f/books";
+  "https://crudcrud.com/api/4a3826cd54ec464ab8bee9c4f9758971/books";
 
 // SWR fetcher
 export const fetcher = (url: string) =>
