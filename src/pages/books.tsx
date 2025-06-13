@@ -1,26 +1,15 @@
 import useSWR, { mutate } from "swr";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { fetcher, deleteBook } from "../api/booksApi";
+import { fetcher, deleteBook, API_BASE } from "../api/booksApi";
 import toast from "react-hot-toast";
 import { TableLoader } from "../components/loader";
-
-type Book = {
-  _id: string;
-  title: string;
-  author: string;
-  genre: string;
-  publishedYear: number;
-  status: "Available" | "Issued";
-};
+import type { Book } from "../types/book";
 
 const PAGE_SIZE = 10;
 
 const Books = () => {
-  const { data, error, isLoading } = useSWR<Book[]>(
-    "https://crudcrud.com/api/e4ab79a56a344abfae80a0f0a5b2b10f/books",
-    fetcher
-  );
+  const { data, error, isLoading } = useSWR<Book[]>(API_BASE, fetcher);
   const [filters, setFilters] = useState({
     search: "",
     genre: "",
@@ -65,9 +54,7 @@ const Books = () => {
     if (!deletingId) return;
     toast.promise(
       deleteBook(deletingId).then(() => {
-        mutate(
-          "https://crudcrud.com/api/e4ab79a56a344abfae80a0f0a5b2b10f/books"
-        );
+        mutate(API_BASE);
         setDeletingId(null);
       }),
       {
@@ -78,7 +65,12 @@ const Books = () => {
     );
   };
 
-  if (error) return <div className="text-red-500">Failed to load books.</div>;
+  if (error)
+    return (
+      <div className="text-red-500 text-center font-bold text-2xl mt-10">
+        Failed to load books.
+      </div>
+    );
 
   return (
     <div className="p-2 sm:p-6 bg-gradient-to-br from-blue-50 to-white min-h-screen">
@@ -161,7 +153,7 @@ const Books = () => {
                         </button>
                         <button
                           className="text-red-600 hover:text-red-900 underline"
-                          onClick={() => handleDelete(b._id)}
+                          onClick={() => handleDelete(b._id!)}
                         >
                           Delete
                         </button>
