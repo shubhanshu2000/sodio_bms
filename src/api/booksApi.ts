@@ -1,3 +1,5 @@
+import type { Book } from "../types/book";
+
 export const API_BASE =
   "https://crudcrud.com/api/e4ab79a56a344abfae80a0f0a5b2b10f/books";
 
@@ -7,16 +9,6 @@ export const fetcher = (url: string) =>
     if (!res.ok) throw new Error("Network error");
     return res.json();
   });
-
-// Define Book type
-export type Book = {
-  _id?: string;
-  title: string;
-  author: string;
-  genre: string;
-  publishedYear: number;
-  status: "Available" | "Issued";
-};
 
 // Add a new book
 export async function addBook(book: Omit<Book, "_id">): Promise<Book> {

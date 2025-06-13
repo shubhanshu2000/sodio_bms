@@ -43,7 +43,6 @@ const AddEditBooks = () => {
 
   const onSubmit = async (formData: BookFormInputs) => {
     setSubmitting(true);
-    // Only send correct types to API
     const payload = {
       title: formData.title,
       author: formData.author,
